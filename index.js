@@ -1,15 +1,23 @@
 const express = require("express");
 const app = express();
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000;
+
+// لاگ همه درخواست‌ها
+app.use((req, res, next) => {
+  console.log("REQ:", req.method, req.url);
+  next();
+});
 
 app.get("/", (req, res) => {
-  res.send(`
-    <h1>VPS OK ✅</h1>
-    <p>Hello, VPS is alive 🚀</p>
-  `);
+  res.send("OK");
+});
+
+// fallback برای بقیه مسیرها
+app.use((req, res) => {
+  res.status(404).send("Not Found");
 });
 
 app.listen(PORT, () => {
-  console.log("Server is running...");
+  console.log("Server is running on port " + PORT);
 });
